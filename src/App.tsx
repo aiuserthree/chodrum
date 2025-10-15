@@ -114,22 +114,31 @@ export default function App() {
     setCurrentPage('home');
   };
 
-  // 로컬 스토리지에서 상품 데이터 로드
+  // 로컬 스토리지에서 상품 데이터 로드 (고객 사이트용 - 노출된 상품만)
   const getProducts = () => {
     const savedProducts = localStorage.getItem('admin_products');
     if (savedProducts) {
       const parsed = JSON.parse(savedProducts);
       
-      // ID 중복 체크 및 해결
-      const idCounts: { [key: string]: number } = {};
-      const updatedProducts = parsed.map((product: any, index: number) => {
-        if (product.id && product.id.length < 10) {
-          // 짧은 ID는 고유 ID로 변경
-          const newId = `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`;
-          return { ...product, id: newId };
-        }
-        return product;
-      });
+      // ID 중복 체크 및 해결, 노출 상품 필터링
+      const updatedProducts = parsed
+        .map((product: any, index: number) => {
+          let updatedProduct = { ...product };
+          
+          if (product.id && product.id.length < 10) {
+            // 짧은 ID는 고유 ID로 변경
+            updatedProduct.id = `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`;
+          }
+          
+          // isVisible 필드가 없는 경우 기본값 true로 설정 (기존 호환성)
+          if (typeof updatedProduct.isVisible === 'undefined') {
+            updatedProduct.isVisible = true;
+          }
+          
+          return updatedProduct;
+        })
+        // 노출된 상품만 필터링
+        .filter((product: any) => product.isVisible === true);
       
       return updatedProducts;
     }

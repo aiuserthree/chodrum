@@ -5,7 +5,8 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { ChevronLeft, Upload, Trash2, FileText } from 'lucide-react';
+import { Switch } from '../ui/switch';
+import { ChevronLeft, Upload, Trash2, FileText, Eye, EyeOff } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Badge } from '../ui/badge';
 
@@ -24,7 +25,8 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
     difficulty: product.difficulty,
     description: product.description,
     youtubeUrl: product.youtubeUrl || '',
-    duration: product.duration
+    duration: product.duration,
+    isVisible: typeof product.isVisible !== 'undefined' ? product.isVisible : true
   });
 
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -121,7 +123,8 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
       description: formData.description,
       youtubeUrl: formData.youtubeUrl || '',
       pages: parseInt(formData.pages) || 0,
-      duration: formData.duration || ''
+      duration: formData.duration || '',
+      isVisible: formData.isVisible
     };
 
     // 로컬 스토리지에서 기존 상품 목록 로드
@@ -371,6 +374,44 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
                 />
               </div>
             </div>
+          </div>
+
+          {/* 노출 상태 관리 */}
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h3 className="mb-4">상품 노출 설정</h3>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                {formData.isVisible ? (
+                  <Eye className="w-5 h-5 text-green-600" />
+                ) : (
+                  <EyeOff className="w-5 h-5 text-red-600" />
+                )}
+                <Label htmlFor="visibility-toggle" className="text-base font-medium">
+                  고객 사이트에 상품 {formData.isVisible ? '노출' : '미노출'}
+                </Label>
+              </div>
+              <Switch
+                id="visibility-toggle"
+                checked={formData.isVisible}
+                onCheckedChange={(checked) => setFormData({ ...formData, isVisible: checked })}
+              />
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              {formData.isVisible 
+                ? '이 상품은 고객 사이트에서 구매 가능한 상태입니다.' 
+                : '이 상품은 고객 사이트에서 숨겨진 상태입니다. 관리자만 볼 수 있습니다.'
+              }
+            </p>
+            {!formData.isVisible && (
+              <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-md">
+                <div className="flex items-center">
+                  <EyeOff className="w-4 h-4 text-amber-600 mr-2" />
+                  <span className="text-sm text-amber-800">
+                    미노출 상태: 고객은 이 상품을 볼 수 없습니다.
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* PDF 파일 */}

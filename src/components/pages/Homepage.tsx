@@ -9,11 +9,15 @@ interface HomepageProps {
 }
 
 export function Homepage({ onNavigate }: HomepageProps) {
-  // 로컬 스토리지에서 상품 데이터 로드
+  // 로컬 스토리지에서 상품 데이터 로드 (노출된 상품만)
   const [products] = useState(() => {
     const savedProducts = localStorage.getItem('admin_products');
     if (savedProducts) {
-      return JSON.parse(savedProducts);
+      const allProducts = JSON.parse(savedProducts);
+      // 노출된 상품만 필터링 (isVisible이 true이거나 undefined인 경우 - 기존 호환성)
+      return allProducts.filter((product: any) => 
+        typeof product.isVisible === 'undefined' || product.isVisible === true
+      );
     }
     return mockProducts;
   });

@@ -42,16 +42,21 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       const parsed = JSON.parse(savedProducts);
       console.log('상품 데이터 로드됨:', parsed.length, '개');
       
-      // 기존 상품들의 ID가 중복되는 경우 고유 ID로 업데이트
+      // 기존 상품들의 ID가 중복되는 경우 고유 ID로 업데이트 및 호환성 처리
       const updatedProducts = parsed.map((product: any, index: number) => {
+        let updatedProduct = { ...product };
+        
+        // 짧은 ID는 고유 ID로 변경
         if (product.id && product.id.length < 10) {
-          // 짧은 ID는 고유 ID로 변경
-          return {
-            ...product,
-            id: `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`
-          };
+          updatedProduct.id = `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`;
         }
-        return product;
+        
+        // isVisible 필드가 없는 경우 기본값 true로 설정 (기존 상품 호환성)
+        if (typeof updatedProduct.isVisible === 'undefined') {
+          updatedProduct.isVisible = true;
+        }
+        
+        return updatedProduct;
       });
       
       // ID가 변경된 경우 로컬 스토리지에 저장
@@ -160,7 +165,8 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       description: newProduct.description || '',
       youtubeUrl: newProduct.youtubeUrl || '',
       pages: parseInt(newProduct.pages) || 0,
-      duration: newProduct.duration || ''
+      duration: newProduct.duration || '',
+      isVisible: true // 새 상품은 기본적으로 노출
     };
 
     const updatedProducts = [...products, product];
@@ -257,7 +263,8 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       description: newProduct.description || '',
       youtubeUrl: newProduct.youtubeUrl || '',
       pages: parseInt(newProduct.pages) || 0,
-      duration: newProduct.duration || ''
+      duration: newProduct.duration || '',
+      isVisible: typeof editingProduct.isVisible !== 'undefined' ? editingProduct.isVisible : true
     };
     
     console.log('업데이트할 상품:', updatedProduct.title, '이미지 URL:', updatedProduct.image.substring(0, 50) + '...');
@@ -782,6 +789,7 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
                 <th className="p-4">난이도</th>
                 <th className="p-4">가격</th>
                 <th className="p-4">페이지</th>
+                <th className="p-4">노출상태</th>
                 <th className="p-4">액션</th>
               </tr>
             </thead>
@@ -813,6 +821,11 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
                   </td>
                   <td className="p-4">₩{product.price.toLocaleString()}</td>
                   <td className="p-4 text-muted-foreground">{product.pages}</td>
+                  <td className="p-4">
+                    <Badge variant={product.isVisible ? "default" : "secondary"} className={product.isVisible ? "bg-green-500" : "bg-red-500"}>
+                      {product.isVisible ? '노출' : '미노출'}
+                    </Badge>
+                  </td>
                   <td className="p-4">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
