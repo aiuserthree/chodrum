@@ -1,13 +1,135 @@
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>조드럼닷컴</title>
-    <link rel="icon" type="image/png" href="/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png">
-    <link rel="apple-touch-icon" href="/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png">
-  </head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Basic SEO -->
+  <title>조드럼닷컴 - 전자드럼 악보 전문쇼핑몰 | 고품질 드럼 악보 다운로드</title>
+  <meta name="description" content="조드럼닷컴에서 고품질 전자드럼 악보를 구매하고 즉시 다운로드하세요. K-POP부터 클래식까지 다양한 장르의 드럼 악보를 합리적인 가격에 제공합니다." />
+  <meta name="keywords" content="드럼악보, 전자드럼, 드럼타브, 드럼스코어, K-POP드럼, 조드럼, chodrum, 드럼악보다운로드, 드럼연주, 드럼레슨" />
+  <meta name="author" content="조드럼닷컴" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="ko" />
+  <meta name="revisit-after" content="1 days" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://chodrum.vercel.app/" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png">
+  <link rel="apple-touch-icon" href="/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="조드럼닷컴 RSS Feed" href="/feed.xml">
+  
+  <!-- DNS Prefetch for better performance -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  
+  <!-- Preconnect for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://chodrum.vercel.app/" />
+  <meta property="og:title" content="조드럼닷컴 - 전자드럼 악보 전문쇼핑몰" />
+  <meta property="og:description" content="고품질 전자드럼 악보를 구매하고 즉시 다운로드하세요. K-POP부터 클래식까지 다양한 장르의 드럼 악보를 합리적인 가격에 제공합니다." />
+  <meta property="og:image" content="https://chodrum.vercel.app/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="조드럼닷컴" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://chodrum.vercel.app/" />
+  <meta property="twitter:title" content="조드럼닷컴 - 전자드럼 악보 전문쇼핑몰" />
+  <meta property="twitter:description" content="고품질 전자드럼 악보를 구매하고 즉시 다운로드하세요. K-POP부터 클래식까지 다양한 장르의 드럼 악보를 합리적인 가격에 제공합니다." />
+  <meta property="twitter:image" content="https://chodrum.vercel.app/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png" />
+  
+  <!-- 네이버 사이트 인증 (실제 인증 코드로 교체 필요) -->
+  <meta name="naver-site-verification" content="naver_site_verification_code" />
+  
+  <!-- 구글 서치 콘솔 인증 (실제 인증 코드로 교체 필요) -->
+  <meta name="google-site-verification" content="google_site_verification_code" />
+  
+  <!-- 빙 웹마스터 도구 인증 -->
+  <meta name="msvalidate.01" content="bing_webmaster_verification_code" />
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "조드럼닷컴",
+    "alternateName": "chodrum",
+    "url": "https://chodrum.vercel.app",
+    "logo": "https://chodrum.vercel.app/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": "Korean"
+    },
+    "sameAs": [
+      "https://github.com/aiuserthree/chodrum"
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "조드럼닷컴",
+    "url": "https://chodrum.vercel.app",
+    "description": "전자드럼 악보 전문쇼핑몰",
+    "publisher": {
+      "@type": "Organization",
+      "name": "조드럼닷컴"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://chodrum.vercel.app/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "조드럼닷컴",
+    "image": "https://chodrum.vercel.app/src/assets/8aaae83d3eb9c8be78df183340318ee1aa32e9ea.png",
+    "description": "고품질 전자드럼 악보를 구매하고 즉시 다운로드할 수 있는 온라인 스토어",
+    "url": "https://chodrum.vercel.app",
+    "telephone": "+82-0000-0000",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "KR",
+      "addressLocality": "Seoul"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday", 
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  }
+  </script>
+</head>
 
     <body>
       <div id="root"></div>
