@@ -114,46 +114,53 @@ export default function App() {
     setCurrentPage('home');
   };
 
-  // 로컬 스토리지에서 상품 데이터 로드 (고객 사이트용 - 노출된 상품만)
-  const getProducts = () => {
+  // 관리자용 상품 데이터 로드 (모든 상품)
+  const getAllProducts = () => {
     const savedProducts = localStorage.getItem('admin_products');
     if (savedProducts) {
       const parsed = JSON.parse(savedProducts);
       
-      // ID 중복 체크 및 해결, 노출 상품 필터링
-      const updatedProducts = parsed
-        .map((product: any, index: number) => {
-          let updatedProduct = { ...product };
-          
-          if (product.id && product.id.length < 10) {
-            // 짧은 ID는 고유 ID로 변경
-            updatedProduct.id = `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`;
-          }
-          
-          // isVisible 필드가 없는 경우 기본값 true로 설정 (기존 호환성)
-          if (typeof updatedProduct.isVisible === 'undefined') {
-            updatedProduct.isVisible = true;
-          }
-          
-          return updatedProduct;
-        })
-        // 노출된 상품만 필터링
-        .filter((product: any) => product.isVisible === true);
+      // ID 중복 체크 및 해결
+      const updatedProducts = parsed.map((product: any, index: number) => {
+        let updatedProduct = { ...product };
+        
+        if (product.id && product.id.length < 10) {
+          // 짧은 ID는 고유 ID로 변경
+          updatedProduct.id = `product_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`;
+        }
+        
+        // isVisible 필드가 없는 경우 기본값 true로 설정 (기존 호환성)
+        if (typeof updatedProduct.isVisible === 'undefined') {
+          updatedProduct.isVisible = true;
+        }
+        
+        return updatedProduct;
+      });
       
       return updatedProducts;
     }
     return mockProducts;
   };
 
+  // 고객용 상품 데이터 로드 (노출된 상품만)
+  const getProducts = () => {
+    return getAllProducts().filter((product: any) => product.isVisible === true);
+  };
+
   const selectedProduct = selectedProductId
-    ? getProducts().find(p => p.id === selectedProductId)
+    ? (siteMode === 'admin' ? getAllProducts() : getProducts()).find(p => p.id === selectedProductId)
     : null;
     
   // 디버깅 로그
   if (selectedProductId) {
     console.log('선택된 상품 ID:', selectedProductId);
     console.log('찾은 상품:', selectedProduct);
-    console.log('전체 상품 목록:', getProducts().map(p => ({ id: p.id, title: p.title })));
+    console.log('사이트 모드:', siteMode);
+    if (siteMode === 'admin') {
+      console.log('관리자 모드 - 전체 상품 목록:', getAllProducts().map(p => ({ id: p.id, title: p.title, isVisible: p.isVisible })));
+    } else {
+      console.log('고객 모드 - 노출 상품 목록:', getProducts().map(p => ({ id: p.id, title: p.title })));
+    }
   }
 
   // Admin Site
