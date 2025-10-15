@@ -42,18 +42,139 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // 이미지 파일을 압축하여 Data URL로 변환
+  const handleImageUpload = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      // 파일 크기 제한 (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        reject(new Error('이미지 파일 크기는 5MB 이하여야 합니다.'));
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        // 최대 크기 설정 (800x600)
+        const maxWidth = 800;
+        const maxHeight = 600;
+        let { width, height } = img;
+        
+        if (width > height) {
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = (width * maxHeight) / height;
+            height = maxHeight;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // 이미지 그리기 및 압축
+        ctx?.drawImage(img, 0, 0, width, height);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        resolve(compressedDataUrl);
+      };
+      
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 실제로는 여기서 API 호출하여 저장
-    alert('상품이 업데이트되었습니다.');
-    onNavigate('admin-products');
+    
+    if (!formData.title || !formData.composer || !formData.price) {
+      alert('제목, 작곡가, 가격은 필수 입력 항목입니다.');
+      return;
+    }
+
+    let imageUrl = product.image; // 기존 이미지 유지
+    
+    // 이미지 파일이 업로드된 경우 Data URL로 변환
+    if (imageFile) {
+      try {
+        console.log('이미지 파일 업로드 시작:', imageFile.name, imageFile.size);
+        imageUrl = await handleImageUpload(imageFile);
+        console.log('이미지 변환 완료, Data URL 길이:', imageUrl.length);
+      } catch (error: any) {
+        console.error('이미지 업로드 오류:', error);
+        alert('이미지 업로드 중 오류가 발생했습니다: ' + error.message);
+        return;
+      }
+    }
+
+    const updatedProduct = {
+      ...product,
+      title: formData.title,
+      composer: formData.composer,
+      difficulty: formData.difficulty,
+      price: parseInt(formData.price),
+      image: imageUrl,
+      category: formData.category,
+      description: formData.description,
+      youtubeUrl: formData.youtubeUrl || '',
+      pages: parseInt(formData.pages) || 0,
+      duration: formData.duration || ''
+    };
+
+    // 로컬 스토리지에서 기존 상품 목록 로드
+    const savedProducts = localStorage.getItem('admin_products');
+    const products = savedProducts ? JSON.parse(savedProducts) : [];
+    
+    // 해당 상품을 찾아서 업데이트
+    const updatedProducts = products.map((p: any) => 
+      p.id === product.id ? updatedProduct : p
+    );
+    
+    // 로컬 스토리지에 저장
+    try {
+      const dataString = JSON.stringify(updatedProducts);
+      localStorage.setItem('admin_products', dataString);
+      
+      // 저장 성공 확인
+      const savedData = localStorage.getItem('admin_products');
+      if (!savedData || savedData !== dataString) {
+        throw new Error('로컬 스토리지 저장 실패');
+      }
+      
+      console.log('로컬 스토리지 저장 성공');
+      console.log('업데이트된 상품:', updatedProduct.title);
+      
+      alert('상품이 성공적으로 업데이트되었습니다.');
+      onNavigate('admin-products');
+    } catch (error) {
+      console.error('로컬 스토리지 저장 오류:', error);
+      alert('이미지가 너무 커서 저장할 수 없습니다. 더 작은 이미지를 사용해주세요.');
+      return;
+    }
   };
 
   const handleDelete = () => {
     if (confirm('정말 이 상품을 삭제하시겠습니까?')) {
-      // 실제로는 여기서 API 호출하여 삭제
-      alert('상품이 삭제되었습니다.');
-      onNavigate('admin-products');
+      // 로컬 스토리지에서 기존 상품 목록 로드
+      const savedProducts = localStorage.getItem('admin_products');
+      const products = savedProducts ? JSON.parse(savedProducts) : [];
+      
+      // 해당 상품을 제외한 새로운 배열 생성
+      const updatedProducts = products.filter((p: any) => p.id !== product.id);
+      
+      // 로컬 스토리지에 저장
+      try {
+        localStorage.setItem('admin_products', JSON.stringify(updatedProducts));
+        console.log('상품 삭제 성공:', product.title);
+        alert('상품이 성공적으로 삭제되었습니다.');
+        onNavigate('admin-products');
+      } catch (error) {
+        console.error('상품 삭제 오류:', error);
+        alert('상품 삭제 중 오류가 발생했습니다.');
+      }
     }
   };
 
