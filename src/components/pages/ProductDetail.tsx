@@ -2,7 +2,7 @@ import { Product } from '../../types';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Button } from '../ui/button';
 import { useCart } from '../../context/CartContext';
-import { ShoppingCart, Download, Clock, FileText, Award, ChevronLeft } from 'lucide-react';
+import { ShoppingCart, Download, FileText, Award, ChevronLeft } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { toast } from 'sonner';
 
@@ -156,10 +156,6 @@ export function ProductDetail({ product, onNavigate, isLoggedIn = false }: Produ
                 <span>{product.pages}페이지</span>
               </div>
               <div className="flex items-center gap-3 text-muted-foreground">
-                <Clock className="w-5 h-5" />
-                <span>연주 시간 {product.duration}</span>
-              </div>
-              <div className="flex items-center gap-3 text-muted-foreground">
                 <Award className="w-5 h-5" />
                 <span>{product.difficulty} 레벨</span>
               </div>
@@ -224,10 +220,6 @@ export function ProductDetail({ product, onNavigate, isLoggedIn = false }: Produ
             <div className="text-center">
               <FileText className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
               <p className="text-sm text-muted-foreground">{product.pages}페이지</p>
-            </div>
-            <div className="text-center">
-              <Clock className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">{product.duration}</p>
             </div>
             <div className="text-center">
               <Award className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />

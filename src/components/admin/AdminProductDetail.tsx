@@ -25,7 +25,6 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
     difficulty: product.difficulty,
     description: product.description,
     youtubeUrl: product.youtubeUrl || '',
-    duration: product.duration,
     isVisible: typeof product.isVisible !== 'undefined' ? product.isVisible : true
   });
 
@@ -123,7 +122,6 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
       description: formData.description,
       youtubeUrl: formData.youtubeUrl || '',
       pages: parseInt(formData.pages) || 0,
-      duration: formData.duration || '',
       isVisible: formData.isVisible
     };
 
@@ -338,17 +336,6 @@ export function AdminProductDetail({ product, onNavigate }: AdminProductDetailPr
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-
-              <div>
-                <Label htmlFor="duration">연주 시간</Label>
-                <Input
-                  id="duration"
-                  placeholder="예: 5분"
-                  value={formData.duration}
-                  onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                  className="mt-1"
-                />
               </div>
 
               <div>

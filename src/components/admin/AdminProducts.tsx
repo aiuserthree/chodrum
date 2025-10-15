@@ -79,8 +79,7 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
     category: '',
     description: '',
     youtubeUrl: '',
-    pages: '',
-    duration: ''
+    pages: ''
   });
 
   const filteredProducts = products.filter(product =>
@@ -165,7 +164,6 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       description: newProduct.description || '',
       youtubeUrl: newProduct.youtubeUrl || '',
       pages: parseInt(newProduct.pages) || 0,
-      duration: newProduct.duration || '',
       isVisible: true // 새 상품은 기본적으로 노출
     };
 
@@ -198,8 +196,7 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       category: '',
       description: '',
       youtubeUrl: '',
-      pages: '',
-      duration: ''
+      pages: ''
     });
     setImageFile(null);
     setIsAddDialogOpen(false);
@@ -219,8 +216,7 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       category: product.category,
       description: product.description,
       youtubeUrl: product.youtubeUrl,
-      pages: product.pages.toString(),
-      duration: product.duration
+      pages: product.pages.toString()
     });
     setIsEditDialogOpen(true);
   };
@@ -263,7 +259,6 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       description: newProduct.description || '',
       youtubeUrl: newProduct.youtubeUrl || '',
       pages: parseInt(newProduct.pages) || 0,
-      duration: newProduct.duration || '',
       isVisible: typeof editingProduct.isVisible !== 'undefined' ? editingProduct.isVisible : true
     };
     
@@ -317,8 +312,7 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
       category: '',
       description: '',
       youtubeUrl: '',
-      pages: '',
-      duration: ''
+      pages: ''
     });
     alert('상품이 성공적으로 수정되었습니다.');
   };
@@ -730,16 +724,6 @@ export function AdminProducts({ onNavigate }: AdminProductsProps) {
                       }}
                     />
                   </div>
-                </div>
-                <div>
-                  <Label htmlFor="edit-duration">재생 시간</Label>
-                  <Input
-                    id="edit-duration"
-                    placeholder="4분"
-                    className="mt-1"
-                    value={newProduct.duration}
-                    onChange={(e) => setNewProduct({...newProduct, duration: e.target.value})}
-                  />
                 </div>
                 <div className="flex gap-3 pt-4">
                   <Button type="button" onClick={handleUpdateProduct} className="flex-1">

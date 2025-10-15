@@ -9,7 +9,6 @@ export interface Product {
   description: string;
   youtubeUrl?: string;
   pages: number;
-  duration: string;
   isVisible: boolean; // 상품 노출 여부 (true: 노출, false: 미노출)
 }
 
