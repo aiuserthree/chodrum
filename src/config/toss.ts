@@ -6,7 +6,7 @@ const getClientKey = () => {
   }
   
   // 개발/테스트 환경에서는 테스트 키 사용
-  return import.meta.env.VITE_TOSS_TEST_CLIENT_KEY || 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+  return import.meta.env.VITE_TOSS_TEST_CLIENT_KEY || 'test_ck_kZLKGPx4M3M7B9XJ9RErBaWypv1o';
 };
 
 const getSecretKey = () => {
@@ -16,7 +16,7 @@ const getSecretKey = () => {
   }
   
   // 개발/테스트 환경에서는 테스트 키 사용
-  return import.meta.env.VITE_TOSS_TEST_SECRET_KEY || 'test_sk_5mBZ1gQ4YVXwP8R3nL2jH6kF9sA7bC';
+  return import.meta.env.VITE_TOSS_TEST_SECRET_KEY || 'test_sk_ODnyRpQWGrNXPwpZwlg3Kwv1M9EN';
 };
 
 // 토스페이먼츠 설정

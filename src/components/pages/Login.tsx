@@ -161,37 +161,6 @@ export function Login({ onNavigate, onLoginSuccess, onAdminLogin }: LoginProps) 
             </p>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-border">
-            <div className="text-center mb-4">
-              <span className="text-sm text-muted-foreground">또는</span>
-            </div>
-            
-            <div className="space-y-3">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => toast.info('카카오 로그인은 준비중입니다.')}
-              >
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 3C6.48 3 2 6.58 2 11c0 2.9 1.88 5.45 4.71 7.03l-.94 3.45c-.06.22.18.4.38.28l4.34-2.85c.63.08 1.28.13 1.94.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
-                </svg>
-                카카오로 시작하기
-              </Button>
-              
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => toast.info('네이버 로그인은 준비중입니다.')}
-              >
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727v12.845z"/>
-                </svg>
-                네이버로 시작하기
-              </Button>
-            </div>
-          </div>
 
           <div className="mt-6 pt-6 border-t border-border text-center">
             <p className="text-sm text-muted-foreground mb-3">
