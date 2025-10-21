@@ -104,22 +104,20 @@ export function TossPayment({
   const paymentMethods = [
     { id: '카드', label: '신용카드', icon: CreditCard, description: 'Visa, Master, 국내카드' },
     { id: '계좌이체', label: '계좌이체', icon: Building2, description: '실시간 계좌이체' },
-    { id: '네이버페이', label: '네이버페이', icon: Smartphone, description: '네이버 간편결제' },
-    { id: '카카오페이', label: '카카오페이', icon: Smartphone, description: '카카오 간편결제' },
     { id: '가상계좌', label: '가상계좌', icon: Wallet, description: '무통장입금' },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* 결제 정보 */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2">
             <CreditCard className="w-5 h-5" />
             결제 정보
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pb-6">
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">상품명</span>
             <span className="font-medium">{orderName}</span>
@@ -141,10 +139,10 @@ export function TossPayment({
 
       {/* 결제 수단 선택 */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-4">
           <CardTitle>결제 수단 선택</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {paymentMethods.map((method) => {
               const Icon = method.icon;
