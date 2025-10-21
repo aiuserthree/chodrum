@@ -8,4 +8,9 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+
+  ## Latest Updates
+  - Login UI improvements
+  - Payment page spacing adjustments
+  - Payment method simplification
   
