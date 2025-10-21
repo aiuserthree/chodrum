@@ -63,7 +63,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(item => item.product.id !== productId));
+    setCart(prev => {
+      const updatedCart = prev.filter(item => item.product.id !== productId);
+      // 삭제된 상품 정보를 토스트로 표시
+      const removedItem = prev.find(item => item.product.id === productId);
+      if (removedItem) {
+        toast.success('상품이 장바구니에서 제거되었습니다', {
+          description: removedItem.product.title,
+        });
+      }
+      return updatedCart;
+    });
   };
 
   const clearCart = () => setCart([]);
