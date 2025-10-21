@@ -33,20 +33,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return mockProducts;
   };
 
-  const [cart, setCart] = useState<CartItem[]>([]);
-
-  // 컴포넌트 마운트 시 장바구니 초기화
-  useEffect(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    // localStorage에서 장바구니 데이터 복원
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      try {
+        return JSON.parse(savedCart);
+      } catch (error) {
+        console.error('장바구니 데이터 복원 실패:', error);
+        return [];
+      }
+    }
+    
+    // localStorage에 데이터가 없으면 데모 데이터 추가 (최초 방문 시에만)
     const products = getProducts();
     if (products.length > 0) {
-      // 데모 목적으로 초기 장바구니에 상품 추가 (안전하게)
       const initialCart: CartItem[] = [];
       if (products[0]) initialCart.push({ product: products[0], quantity: 1 });
       if (products[2]) initialCart.push({ product: products[2], quantity: 1 });
       if (products[4]) initialCart.push({ product: products[4], quantity: 1 });
-      setCart(initialCart);
+      return initialCart;
     }
-  }, []);
+    return [];
+  });
+
+  // 장바구니 상태가 변경될 때마다 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -76,7 +90,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart');
+  };
 
   const getTotalItems = () => cart.length; // 수량이 항상 1이므로 개수만 세기
 
